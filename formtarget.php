@@ -29,9 +29,9 @@ if (Securimage::checkByCaptchaId($captchaId, $captcha_code, $options) != true) {
 
 // code here for successful validation
 
-if(!isset($_POST['name']) 
-    || !isset($_POST['email']) 
-    || !isset($_POST['phone']) 
+if(!isset($_POST['name'])
+    || !isset($_POST['email'])
+    || !isset($_POST['phone'])
     || !isset($_POST['message'])
     || !isset($_POST['accept'])
     || empty($_POST['name'])
@@ -49,7 +49,7 @@ $message = filter_var ( $_POST['message'],FILTER_SANITIZE_STRING);
 $accept = filter_var ( $_POST['accept'],FILTER_VALIDATE_BOOLEAN);
 $phone = filter_var ( $_POST['phone'],FILTER_SANITIZE_STRING);
 
-if(!$email 
+if(!$email
     || !$name
     || !$message
     || !$accept)
@@ -60,7 +60,7 @@ if(!$email
 
 $message="$email\r\n$name\r\n$phone\r\n$message\r\n$accept";
 
-$headers = "From: $mailTo";
+$headers = "From: $mailFrom";
 
 if(!mail($mailTo, $mailSubject, $message, $headers, '-f'.$mailTo)){
     http_response_code(500);
