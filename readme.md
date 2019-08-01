@@ -18,6 +18,7 @@ This project will protect your mailbox from spam using the securimage project (h
 
 ## Configuration
 Check out the `config.inc.php` for the settings.
+- $mailFrom = 'mysender@localmail.de';
 - $mailTo = 'mytest@localmail.de';
 - $mailSubject= 'New Contact form entry';
 - $dbServer = 'localhost';
@@ -58,6 +59,28 @@ Create a POST request to `https://yourhost/yourpath/formtarget.php` with a formd
 - `403` Captcha id correct, but solution wrong.
 - `200` All good.
 
+## Docker image
+This image does not use any volumes and is stateless. For persistence please apply the Dockerfile to the master branch (untested, but mysqli is installed).
+Just clone this repository and build your image.
+
+Example nginx configuration if the project should be hosted within a subfolder of the domain. This configuration extracts the path information and only supplies the script name. Maybe the timeout needs to be changed, as sending the mail may take some time.
+Please ensure that nginx serves this only via https. Please edit the Access-Control-Allow-Origin Header for safety.
+
+```
+location ~ "/gdpr-contact/(.+\.php)(/|$)" {
+      fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+      fastcgi_read_timeout 300;
+      resolver 127.0.0.11;
+      fastcgi_pass <container_name>:9000;
+      fastcgi_param SCRIPT_FILENAME $1;
+      fastcgi_param HTTPS on;
+      add_header Access-Control-Allow-Origin * always;
+      include fastcgi_params;
+}
+```
+
+
+
 ## Feedback
-Please be aware, that this took about 3 hours of work with few php skills, so feed free to optimize.
+Please be aware, that this took about 3 hours of work with few php skills, so feel free to optimize.
 
