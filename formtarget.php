@@ -21,7 +21,7 @@ if(!existsCaptcha($conn,$captchaId)){
     die('Captcha not found');
 }
 
-$options = array();
+$options = array('no_session' => true);
 if (Securimage::checkByCaptchaId($captchaId, $captcha_code, $options) != true) {
     http_response_code(403);
     die('Captcha wrong');

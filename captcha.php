@@ -19,7 +19,7 @@ if(!existsCaptcha($conn,$captchaId)){
     die('Captcha not found');
 }
 
-$options = array('captchaId' => $captchaId);
+$options = array('captchaId' => $captchaId, 'no_session' => true);
 $captcha = new Securimage($options);
 
 $captcha->show();
